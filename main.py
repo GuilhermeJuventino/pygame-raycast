@@ -29,8 +29,8 @@ class Game:
 
     def draw(self):
         self.window.fill("black")
-        self.map.draw()
-        self.player.draw()
+        #self.map.draw()
+        #self.player.draw()
 
     def check_events(self):
         for event in pygame.event.get():

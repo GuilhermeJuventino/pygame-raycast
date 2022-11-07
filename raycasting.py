@@ -58,9 +58,12 @@ class RayCasting:
             else:
                 depth = depth_hor
 
-            # draw for debug
-            pygame.draw.line(self.game.window, "yellow", (100 * ox, 100 * oy),
-                             (100 * ox + 100 * depth * cos_a, 100 * oy + 100 * depth * sin_a), 2)
+            # projection
+            proj_height = c.SCREEN_DIST / (depth + 0.0001)
+
+            # drawing walls
+            pygame.draw.rect(self.game.window, "white",
+                             (ray * c.SCALE, c.HALF_HEIGHT - proj_height // 2, c.SCALE, proj_height))
 
             ray_angle += c.DELTA_ANGLE
 
