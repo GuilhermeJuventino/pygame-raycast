@@ -1,4 +1,6 @@
 SCREEN_WIDTH, SCREEN_HEIGHT = 1600, 900
+FPS = 60
+
 WORLD_LAYOUT = [
     [1, 1, 1, 1, 1, 1, 1, 1],
     [1, 0, 1, 0, 0, 0, 0, 1],
