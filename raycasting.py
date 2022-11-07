@@ -58,11 +58,15 @@ class RayCasting:
             else:
                 depth = depth_hor
 
+            # fix fish-eye effect
+            depth *= math.cos(self.game.player.angle - ray_angle)
+
             # projection
             proj_height = c.SCREEN_DIST / (depth + 0.0001)
 
             # drawing walls
-            pygame.draw.rect(self.game.window, "white",
+            color = [255 / (1 + depth ** 5 * 0.00002)] * 3
+            pygame.draw.rect(self.game.window, color,
                              (ray * c.SCALE, c.HALF_HEIGHT - proj_height // 2, c.SCALE, proj_height))
 
             ray_angle += c.DELTA_ANGLE
