@@ -1,28 +1,69 @@
 import pygame
+import math
 import constants as c
 
-
 class Player:
-    def __init__(self, x, y):
-        self.color = pygame.Color("yellow")
-        self.point_size = 8
-        self.x = x
-        self.y = y
+    def __init__(self, game):
+        self.game = game
+        self.x, self.y = c.PLAYER_POS
+        self.angle = c.PLAYER_ANGLE
 
-    def draw(self, surface):
-        pygame.draw.rect(surface, self.color, (self.x, self.y, self.point_size, self.point_size))
+    def movement(self):
+        sin_a = math.sin(self.angle)
+        cos_a = math.cos(self.angle)
+        dx, dy = 0, 0
+        speed = c.PLAYER_SPEED * self.game.delta_time
+        speed_sin = speed * sin_a
+        speed_cos = speed * cos_a
 
-    def input(self):
-        self.keystate = pygame.key.get_pressed()
+        keys = pygame.key.get_pressed()
 
-        if self.keystate[pygame.K_a]:
-            self.x -= 5
-        if self.keystate[pygame.K_d]:
-            self.x += 5
-        if self.keystate[pygame.K_w]:
-            self.y -= 5
-        if self.keystate[pygame.K_s]:
-            self.y += 5
+        if keys[pygame.K_w]:
+            dx += speed_cos
+            dy += speed_sin
+
+        if keys[pygame.K_s]:
+            dx += -speed_cos
+            dy += -speed_sin
+
+        if keys[pygame.K_a]:
+            dx += speed_sin
+            dy += -speed_cos
+
+        if keys[pygame.K_d]:
+            dx += -speed_sin
+            dy += speed_cos
+
+        self.check_wall_collision(dx, dy)
+
+        if keys[pygame.K_LEFT]:
+            self.angle -= c.PLAYER_ROT_SPEED * self.game.delta_time
+        if keys[pygame.K_RIGHT]:
+            self.angle += c.PLAYER_ROT_SPEED * self.game.delta_time
+        self.angle %= math.tau
+
+    def check_wall(self, x, y):
+        return (x, y) not in self.game.map.world_map
+
+    def check_wall_collision(self, dx, dy):
+        if self.check_wall(int(self.x + dx), int(self.y)):
+            self.x += dx
+        if self.check_wall(int(self.x), int(self.y + dy)):
+            self.y += dy
+
+    def draw(self):
+        pygame.draw.line(self.game.window, "yellow", (self.x * 100, self.y * 100),
+                         (self.x * 100 + c.SCREEN_WIDTH * math.cos(self.angle),
+                          self.y * 100 + c.SCREEN_WIDTH * math.sin(self.angle)), 2)
+        pygame.draw.circle(self.game.window, "green", (self.x * 100, self.y * 100), 15)
 
     def update(self):
-        self.input()
+        self.movement()
+
+    @property
+    def pos(self):
+        return self.x, self.y
+
+    @property
+    def map_pos(self):
+        return int(self.x), int(self.y)

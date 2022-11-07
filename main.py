@@ -11,21 +11,23 @@ class Game:
         pygame.init()
         self.window = pygame.display.set_mode((c.SCREEN_WIDTH, c.SCREEN_HEIGHT), vsync=1)
         self.clock = pygame.time.Clock()
-        self.player = Player(300, 300)
+        self.delta_time = 1
         self.new_game()
 
     def update(self):
         self.player.update()
-        self.clock.tick(c.FPS)
+        self.delta_time = self.clock.tick(c.FPS)
         pygame.display.set_caption(f"raycaster - fps {str(self.clock.get_fps())}")
         pygame.display.flip()
 
     def new_game(self):
         self.map = Map(self)
+        self.player = Player(self)
 
     def draw(self):
         self.window.fill("black")
         self.map.draw()
+        self.player.draw()
 
     def check_events(self):
         for event in pygame.event.get():
