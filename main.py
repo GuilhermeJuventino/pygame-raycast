@@ -2,6 +2,7 @@ import pygame
 import constants as c
 from player import *
 from map import *
+from raycasting import *
 
 from sys import exit
 
@@ -16,6 +17,7 @@ class Game:
 
     def update(self):
         self.player.update()
+        self.raycasting.update()
         self.delta_time = self.clock.tick(c.FPS)
         pygame.display.set_caption(f"raycaster - fps {str(self.clock.get_fps())}")
         pygame.display.flip()
@@ -23,6 +25,7 @@ class Game:
     def new_game(self):
         self.map = Map(self)
         self.player = Player(self)
+        self.raycasting = RayCasting(self)
 
     def draw(self):
         self.window.fill("black")
