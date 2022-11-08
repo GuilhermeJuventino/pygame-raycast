@@ -31,7 +31,6 @@ class Game:
         self.raycasting = RayCasting(self)
 
     def draw(self):
-        self.window.fill("black")
         self.object_renderer.draw()
         #self.map.draw()
         #self.player.draw()
