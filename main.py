@@ -11,6 +11,7 @@ from sys import exit
 class Game:
     def __init__(self):
         pygame.init()
+        pygame.mouse.set_visible(False)
         self.window = pygame.display.set_mode((c.SCREEN_WIDTH, c.SCREEN_HEIGHT), vsync=1)
         self.clock = pygame.time.Clock()
         self.delta_time = 1
