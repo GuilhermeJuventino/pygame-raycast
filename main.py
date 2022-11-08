@@ -3,6 +3,7 @@ import constants as c
 from player import *
 from map import *
 from raycasting import *
+from object_renderer import *
 
 from sys import exit
 
@@ -25,10 +26,12 @@ class Game:
     def new_game(self):
         self.map = Map(self)
         self.player = Player(self)
+        self.object_renderer = ObjectRenderer(self)
         self.raycasting = RayCasting(self)
 
     def draw(self):
         self.window.fill("black")
+        self.object_renderer.draw()
         #self.map.draw()
         #self.player.draw()
 
