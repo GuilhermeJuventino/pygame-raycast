@@ -19,7 +19,7 @@ class Game:
         self.player.update()
         self.raycasting.update()
         self.delta_time = self.clock.tick(c.FPS)
-        pygame.display.set_caption(f"raycaster - fps {str(self.clock.get_fps())}")
+        pygame.display.set_caption(f"raycaster - fps {self.clock.get_fps() :.1f}")
         pygame.display.flip()
 
     def new_game(self):
@@ -44,6 +44,8 @@ class Game:
             self.update()
             self.draw()
 
+
 if __name__ == "__main__":
     game = Game()
     game.run()
+
