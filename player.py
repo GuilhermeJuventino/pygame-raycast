@@ -34,6 +34,10 @@ class Player:
             dx += -speed_sin
             dy += speed_cos
 
+        if dx != 0 and dy != 0:
+            dx = dx * (math.sqrt(2) / 2)
+            dy = dy * (math.sqrt(2) / 2)
+
         self.check_wall_collision(dx, dy)
 
         if keys[pygame.K_LEFT]:
@@ -42,13 +46,15 @@ class Player:
             self.angle += c.PLAYER_ROT_SPEED * self.game.delta_time
         self.angle %= math.tau
 
+
     def check_wall(self, x, y):
         return (x, y) not in self.game.map.world_map
 
     def check_wall_collision(self, dx, dy):
-        if self.check_wall(int(self.x + dx), int(self.y)):
+        scale = c.PLAYER_SIZE_SCALE / self.game.delta_time
+        if self.check_wall(int(self.x + dx * scale), int(self.y)):
             self.x += dx
-        if self.check_wall(int(self.x), int(self.y + dy)):
+        if self.check_wall(int(self.x), int(self.y + dy * scale)):
             self.y += dy
 
     def draw(self):
